@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Brayden Bin">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Brayden Bin">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="C# 应用程序连接SQLServer数据库一、概述 1 思维导图 2 连接数据库，并打印数据表 3 数据的增删改 4 登录系统  二、连接数据库 打开 Visual Studio 创建 控制台应用(.Net Framework)    引入 using using System.Data; 和 using System.Data.SqlClient;, 必须的。  创建 一个类，类名：Congif">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C# 应用程序连接SQLServer数据库">
+<meta property="og:url" content="http://localhost:4000/2024/05/17/CsharpApplicationConnetSQL_5/index.html">
+<meta property="og:site_name" content="Brayden Bin&#39;s Blog">
+<meta property="og:description" content="C# 应用程序连接SQLServer数据库一、概述 1 思维导图 2 连接数据库，并打印数据表 3 数据的增删改 4 登录系统  二、连接数据库 打开 Visual Studio 创建 控制台应用(.Net Framework)    引入 using using System.Data; 和 using System.Data.SqlClient;, 必须的。  创建 一个类，类名：Congif">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/17/pkuM2FS.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/17/pkuMDsI.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/17/pkuMyeP.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/17/pkuMco8.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/17/pkuM6df.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/17/pkuMrLt.png">
+<meta property="article:published_time" content="2024-05-17T12:05:59.893Z">
+<meta property="article:modified_time" content="2024-05-17T13:55:02.775Z">
+<meta property="article:author" content="Brayden Bin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2024/05/17/pkuM2FS.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/Light_moon.ico">
+    
+    <title>C# 应用程序连接SQLServer数据库 · Brayden Bin&#39;s Studio</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- Google tag (gtag.js) -->
+    
+
+<meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="Brayden Bin's Blog" type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>Brayden Bin's Studio.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">Brayden Bin&#39;s Studio.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">C# 应用程序连接SQLServer数据库</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/Post_Bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                C# 应用程序连接SQLServer数据库
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2024/05/17</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="C-应用程序连接SQLServer数据库"><a href="#C-应用程序连接SQLServer数据库" class="headerlink" title="C# 应用程序连接SQLServer数据库"></a><center>C# 应用程序连接SQLServer数据库</center></h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><ul>
+<li>1 思维导图<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkuM2FS"><img src="https://s21.ax1x.com/2024/05/17/pkuM2FS.png" alt="pkuM2FS.png"></a></li>
+<li>2 连接数据库，并打印数据表</li>
+<li>3 数据的增删改</li>
+<li>4 登录系统</li>
+</ul>
+<h2 id="二、连接数据库"><a href="#二、连接数据库" class="headerlink" title="二、连接数据库"></a>二、连接数据库</h2><ul>
+<li>打开 <strong>Visual Studio</strong> 创建 <strong>控制台应用(.Net Framework)</strong></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://imgse.com/i/pkuMDsI"><img src="https://s21.ax1x.com/2024/05/17/pkuMDsI.png" alt="pkuMDsI.png"></a></p>
+<ul>
+<li><p>引入 <strong>using using System.Data;</strong> 和 <strong>using System.Data.SqlClient;</strong>, 必须的。</p>
+</li>
+<li><p>创建 一个类，类名：<strong>Congif</strong>， 作用：定义一个静态字段和一个静态属性，用来获取和存储连接数据库的sql语句。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Config</span><br><span class="line">&#123; </span><br><span class="line">    private static string config_con; // 字段</span><br><span class="line">    // 属性</span><br><span class="line">    public static string Config_con &#123; get =&gt; config_con; set =&gt; config_con = value; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个类，类名 <strong>SQL</strong>，并创建一个方法 **GetTable()**， 用来用来获取数据表并返回数据表。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class SQL     </span><br><span class="line">&#123;</span><br><span class="line">    // 返回数据表</span><br><span class="line">    public static DataTable GetTables(string sqltext)</span><br><span class="line">    &#123;</span><br><span class="line">        SqlConnection sqlConnection = new SqlConnection(Config.Config_con);</span><br><span class="line">        SqlDataAdapter adapter = new SqlDataAdapter(sqltext, sqlConnection);</span><br><span class="line">        DataTable dt = new DataTable();</span><br><span class="line">        adapter.Fill(dt);</span><br><span class="line">        adapter.Dispose();</span><br><span class="line">        return dt; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在主函数 <strong>Main(string[] args)</strong> 用<strong>Config.Config_con</strong> 来存储sql连接语句。</li>
+<li>“Data Source &#x3D; <strong>服务器名</strong>; Database &#x3D; <strong>数据库名</strong>; User Id &#x3D; <strong>用户名</strong>; Pwd &#x3D; <strong>密码</strong>; TrustServerCertificate&#x3D;true”;</li>
+<li>数据表格类 <strong>DataTable</strong> 声明实例用来存储数据表。</li>
+<li>dataTable.Rows[i][“EmpID”]：数据表变量.Row[第i行][<strong>列的名称</strong>]</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 连接语句</span><br><span class="line">Config.Config_con = &quot;Data Source = (local); Database = text_7; User Id = ttt; Pwd = 123456; TrustServerCertificate=true&quot;;</span><br><span class="line">// 获取表信息</span><br><span class="line">DataTable dataTable = SQL.GetTables(&quot;Select EmpID, Staff_Name, Department from Employee&quot;);</span><br><span class="line"></span><br><span class="line">// 打印每行数据</span><br><span class="line">for (int i = 0; i &lt; dataTable.Rows.Count; i++)</span><br><span class="line">&#123;</span><br><span class="line">    // [第i行][列的名字]</span><br><span class="line">    Console.WriteLine($&quot;&#123;dataTable.Rows[i][&quot;EmpID&quot;],-10&#125; \t\t &#123;dataTable.Rows[i][&quot;Staff_Name&quot;],-10&#125; \t\t &#123;dataTable.Rows[i][&quot;Department&quot;],-10&#125;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><a target="_blank" rel="noopener" href="https://imgse.com/i/pkuMyeP"><img src="https://s21.ax1x.com/2024/05/17/pkuMyeP.png" alt="pkuMyeP.png"></a></p>
+<center>至此完成数据表的连接和数据表打印</center>
+
+<hr>
+<h2 id="三、数据的增删改"><a href="#三、数据的增删改" class="headerlink" title="三、数据的增删改"></a>三、数据的增删改</h2><ul>
+<li>在类 <strong>SQL</strong> 中添加 <strong>AlterTable()</strong> 方法</li>
+<li>string sqltext：增删改的sql语句。</li>
+<li>using (语句1){语句2}：执行语句1并在然后进入语句2，执行完语句2后将整个花括号的内容进行释放，以减少程序内存。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 增删改查数据</span><br><span class="line">public static void AlterData(string sqltext)</span><br><span class="line">&#123;</span><br><span class="line">    using (SqlConnection sqlConnection = new SqlConnection(Config.Config_con))</span><br><span class="line">    &#123;</span><br><span class="line">        using (SqlCommand cmd = new SqlCommand(sqltext, sqlConnection))</span><br><span class="line">        &#123;</span><br><span class="line">            sqlConnection.Open();</span><br><span class="line">            cmd.ExecuteNonQuery();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>以下我的代码截图，其中添加了<strong>画沙</strong>(多打了一个部🤣),删除了<strong>庞宇</strong>。<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkuMco8"><img src="https://s21.ax1x.com/2024/05/17/pkuMco8.png" alt="pkuMco8.png"></a><br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkuM6df"><img src="https://s21.ax1x.com/2024/05/17/pkuM6df.png" alt="pkuM6df.png"></a></li>
+</ul>
+<center>至此完成数据表的增删改</center>
+
+<hr>
+<h2 id="四、登录系统"><a href="#四、登录系统" class="headerlink" title="四、登录系统"></a>四、登录系统</h2><ul>
+<li>注意要在数据库里面创建<strong>Loginer</strong>表。</li>
+<li>在最外层用 <strong>While循环</strong>套用。</li>
+<li>定义两个字符串变量<strong>string InputName</strong> 和 <strong>string InputPwd</strong> 分别用来存储输入的 <strong>账号</strong> 和 <strong>密码</strong>。</li>
+<li>string <strong>Inputtext</strong> ：查询输入账号密码的sql语句。</li>
+<li><strong>dataTable_2</strong> &#x3D; SQL.GetTables(Inputtext) ：将输入的账号与密码在数据库中查询，并返回查询结果。</li>
+<li>if (dataTable_2.Rows.Count &lt;&#x3D; 0)：判断查询结果，如果输入错误，则没有查询到内容，否则有数据。然后进行是否继续登录。</li>
+<li>**ShowTable()**：就是将查询语句封装成方法。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    DataTable dataTable_2 = null;</span><br><span class="line"></span><br><span class="line">    while (true)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        // 进行登录界面设置</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(&quot;欢迎进入员工登录列表！！！&quot;);</span><br><span class="line">        // 用户名</span><br><span class="line">        Console.Write(&quot;请输入用户名：&quot;);</span><br><span class="line">        string InputName = Console.ReadLine();</span><br><span class="line">        // 密码</span><br><span class="line">        Console.Write(&quot;请输入密码：&quot;);</span><br><span class="line">        string InputPwd = Console.ReadLine();</span><br><span class="line"></span><br><span class="line">        // 连接语句</span><br><span class="line">        Config.Config_con = &quot;Data Source = (local); Database = text_7; User Id = ttt; Pwd = 123456; TrustServerCertificate=true&quot;;</span><br><span class="line"></span><br><span class="line">        #region 通过数据库查询</span><br><span class="line"></span><br><span class="line">        string Inputtext = $&quot;select * from Loginer where Loginer_Name = &#x27;&#123;InputName&#125;&#x27; and Loginer_Pwd = &#x27;&#123;InputPwd&#125;&#x27; &quot;;</span><br><span class="line">        dataTable_2 = SQL.GetTables(Inputtext);</span><br><span class="line">        if (dataTable_2.Rows.Count &lt;= 0)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;错误&quot;);</span><br><span class="line"></span><br><span class="line">            Console.WriteLine(&quot;是否·继续登录？&quot;);</span><br><span class="line">            Console.WriteLine(&quot;Yes \t\t No&quot;);</span><br><span class="line">            string answer = Console.ReadLine();</span><br><span class="line"></span><br><span class="line">            if (answer == &quot;Yes&quot;)</span><br><span class="line">            &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            return;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Console.WriteLine($&quot;欢迎登录，尊敬的&#123;dataTable_2.Rows[0][&quot;Loginer_Name&quot;]&#125;&quot;);</span><br><span class="line">    Console.WriteLine(&quot;***********************************************************&quot;);</span><br><span class="line">    ShowTable();</span><br><span class="line">    Console.ReadKey();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void ShowTable()</span><br><span class="line">    &#123;</span><br><span class="line">        // 连接语句</span><br><span class="line">        Config.Config_con = &quot;Data Source = (local); Database = text_7; User Id = ttt; Pwd = 123456; TrustServerCertificate=true&quot;;</span><br><span class="line">        // 获取表信息</span><br><span class="line">        DataTable dataTable = SQL.GetTables(&quot;Select EmpID, Staff_Name, Department from Employee&quot;);</span><br><span class="line"></span><br><span class="line">        // 打印每行数据</span><br><span class="line">        for (int i = 0; i &lt; dataTable.Rows.Count; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            // [第i行][列的名字]</span><br><span class="line">            Console.WriteLine($&quot;&#123;dataTable.Rows[i][&quot;EmpID&quot;],-10&#125; \t\t &#123;dataTable.Rows[i][&quot;Staff_Name&quot;],-10&#125; \t\t &#123;dataTable.Rows[i][&quot;Department&quot;],-10&#125;&quot;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://imgse.com/i/pkuMrLt"><img src="https://s21.ax1x.com/2024/05/17/pkuMrLt.png" alt="pkuMrLt.png"></a></p>
+<center>大功告成！！！</center>
+
+
+<hr>
+<p>慢慢的写文章越来越快了，越来越有条理了，加油！✌</p>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://localhost:4000">Brayden Bin</a>
+            <p>原文链接：<a href="http://localhost:4000/2024/05/17/CsharpApplicationConnetSQL_5/">http://localhost:4000/2024/05/17/CsharpApplicationConnetSQL_5/</a>
+            <p>发表日期：<a href="http://localhost:4000/2024/05/17/CsharpApplicationConnetSQL_5/">May 17th 2024, 8:05:59 pm</a>
+            <p>更新日期：<a href="http://localhost:4000/2024/05/17/CsharpApplicationConnetSQL_5/">May 17th 2024, 9:55:02 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2024/05/19/The_First_Replay_6/" title="第一周复盘">
+                    <div class="nextTitle">第一周复盘</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2024/05/14/WPF%20connet%20SQL/" title="WPF连接SQL Server">
+                    <div class="prevTitle">WPF连接SQL Server</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:15577099697@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/EagleBin" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/assets/MyWechat.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C-%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E8%BF%9E%E6%8E%A5SQLServer%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">C# 应用程序连接SQLServer数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">一、概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.2.</span> <span class="toc-text">二、连接数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9"><span class="toc-number">1.3.</span> <span class="toc-text">三、数据的增删改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.4.</span> <span class="toc-text">四、登录系统</span></a></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 9
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/05/17/CsharpApplicationConnetSQL_5/">C# 应用程序连接SQLServer数据库</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/05/22/C_sharp_Reflection_Attribute_7/">C# 反射与特性</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/05/25/CsharpIO_8/">C#IO-File</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/19</span>
+            <a class="archive-post-title" href="/2024/05/19/The_First_Replay_6/">第一周复盘</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/06</span>
+            <a class="archive-post-title" href="/2024/05/06/WPF%E5%AE%9E%E6%97%B6%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA%E6%97%B6%E9%97%B4_3/">WPF实时动态显示时间</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/05</span>
+            <a class="archive-post-title" href="/2024/05/05/WPF%E6%B8%90%E5%8F%98%E8%89%B2%E8%83%8C%E6%99%AF%E5%8F%8A%E8%BE%B9%E6%A1%86%E8%AE%BE%E7%BD%AE_2/">WPF渐变色背景及边框设置</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/03</span>
+            <a class="archive-post-title" href="/2024/05/03/Markdown_Study_1/">Markdown Study</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span>
+            <a class="archive-post-title" href="/2024/05/01/hello-world/">Hello World</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/05/14/WPF%20connet%20SQL/">WPF连接SQL Server</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "http://localhost:4000",
+        root: siteMetaRoot,
+        author: "Brayden Bin"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>

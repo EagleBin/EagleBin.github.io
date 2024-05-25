@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Brayden Bin">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Brayden Bin">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="C# 反射与特性一、概述 思维导图 C#Type类型 C#反射 C#特性  二、Type类型 获取值类型的Type对象。 值类型包括：数值类型，结构体，bool型，用户定义的结构体，枚举，可空类型。如int, double。 值类型数据.GetType(); typeof(System.值类型) Type.GetType(“”System.值类型””)  123Type type_1 &#x3D; 64.G">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C# 反射与特性">
+<meta property="og:url" content="http://localhost:4000/2024/05/22/C_sharp_Reflection_Attribute_7/index.html">
+<meta property="og:site_name" content="Brayden Bin&#39;s Blog">
+<meta property="og:description" content="C# 反射与特性一、概述 思维导图 C#Type类型 C#反射 C#特性  二、Type类型 获取值类型的Type对象。 值类型包括：数值类型，结构体，bool型，用户定义的结构体，枚举，可空类型。如int, double。 值类型数据.GetType(); typeof(System.值类型) Type.GetType(“”System.值类型””)  123Type type_1 &#x3D; 64.G">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/22/pkMox7F.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/22/pkMTSk4.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/22/pkMoOXV.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/22/pkMojmT.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/22/pkMov0U.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/22/pkMoL60.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/22/pkMTptJ.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/05/22/pkMT9h9.png">
+<meta property="article:published_time" content="2024-05-22T08:39:45.774Z">
+<meta property="article:modified_time" content="2024-05-22T12:58:41.230Z">
+<meta property="article:author" content="Brayden Bin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2024/05/22/pkMox7F.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/Light_moon.ico">
+    
+    <title>C# 反射与特性 · Brayden Bin&#39;s Studio</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- Google tag (gtag.js) -->
+    
+
+<meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="Brayden Bin's Blog" type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>Brayden Bin's Studio.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">Brayden Bin&#39;s Studio.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">C# 反射与特性</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/Post_Bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                C# 反射与特性
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.5k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2024/05/22</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="C-反射与特性"><a href="#C-反射与特性" class="headerlink" title="C# 反射与特性"></a><center>C# 反射与特性</center></h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><ul>
+<li>思维导图<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkMox7F"><img src="https://s21.ax1x.com/2024/05/22/pkMox7F.png" alt="pkMox7F.png"></a></li>
+<li>C#Type类型</li>
+<li>C#反射</li>
+<li>C#特性</li>
+</ul>
+<h2 id="二、Type类型"><a href="#二、Type类型" class="headerlink" title="二、Type类型"></a>二、Type类型</h2><ul>
+<li>获取<strong>值类型</strong>的Type对象。 值类型包括：数值类型，结构体，bool型，用户定义的结构体，枚举，可空类型。如int, double。</li>
+<li>值类型数据.GetType();</li>
+<li>typeof(System.值类型)</li>
+<li>Type.GetType(“”System.值类型””)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Type type_1 = 64.GetType(); // 数据.GetType();</span><br><span class="line">Type type_2 = typeof(System.Int32); // typeof(System.类型)</span><br><span class="line">Type type_3 = Type.GetType(&quot;System.Int32&quot;); // Type.GetType(&quot;&quot;System.类型&quot;&quot;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取<strong>引用类型</strong>的Type对象，引用类型包括：数组，用户定义的类、接口、委托，object，字符串，null类型，类。如object,string。</li>
+<li>引用类型.GetType();</li>
+<li>typeod(引用类型)</li>
+<li>Type.GetType(“System.引用类型”);</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Type type_4 = new Object().GetType();</span><br><span class="line">Type type_5 = typeof(System.Object);</span><br><span class="line">Type type_6 = Type.GetType(&quot;System.Object&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://imgse.com/i/pkMTSk4"><img src="https://s21.ax1x.com/2024/05/22/pkMTSk4.png" alt="pkMTSk4.png"></a></p>
+<p><strong>总结</strong>：无非三种方式：</p>
+<ul>
+<li>类型数据.GetType();</li>
+<li>typeod(命名空间.类型)</li>
+<li>Type.GetType(“命名空间.类型”);</li>
+</ul>
+<h2 id="三、C-反射"><a href="#三、C-反射" class="headerlink" title="三、C#反射"></a>三、C#反射</h2><h3 id="通过反射获取字段-Field"><a href="#通过反射获取字段-Field" class="headerlink" title="通过反射获取字段(Field)"></a>通过反射获取字段(Field)</h3><ul>
+<li>先创建一个<strong>Person类</strong>，供我们使用。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Person</span><br><span class="line">&#123;</span><br><span class="line">    private string id = &quot;1001&quot;;</span><br><span class="line">    public string Name = &quot;Jack&quot;;</span><br><span class="line">    public int age = 26;</span><br><span class="line">    public static string nation;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>首先获取Type类型, 三种方式任选一种。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Type type_1 = new Person().GetType();</span><br><span class="line">Type type_2 = typeof(CSharpReflection.Person); // 推荐</span><br><span class="line">Type type_3= Type.GetType(Person.nation);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取<strong>Person</strong> 类的全部字段，FieldInfo 是字段类型的类。GetFields()获取字段。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> //获取Person类的全部字段</span><br><span class="line">FieldInfo[] PersonInfo_1 = type_2.GetFields();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>打印字段</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 打印字段,获取所有public 字段。 GetValue(传递一个对象)</span><br><span class="line"></span><br><span class="line">for (int i = 0; i &lt; PersonInfo_3.Length; i++)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine($&quot;字段类型:&#123;PersonInfo_3[i].FieldType&#125;\t字段名字:&#123;PersonInfo_3[i].Name&#125;\t字段值:&#123;PersonInfo_3[i].GetValue(new Person())&#125;&quot;);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkMoOXV"><img src="https://s21.ax1x.com/2024/05/22/pkMoOXV.png" alt="pkMoOXV.png"></a></li>
+</ul>
+<hr>
+<ul>
+<li>也可以获取某些类型的字段，如静态的，公有的，非静态的，非公有的</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// BindingFlags.Instance 获取实例的，非静态的</span><br><span class="line">// BindingFlags.NonPublic 获取非公有的</span><br><span class="line">FieldInfo[] PersonInfo_2 = type_2.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);</span><br><span class="line"></span><br><span class="line">// BindingFlags.Static 获取静态字段</span><br><span class="line">// BindingFlags.Public 获取公有的</span><br><span class="line">FieldInfo[] PersonInfo_3 = type_2.GetFields(BindingFlags.Static | BindingFlags.Public);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ul>
+<li>获取单个字段，同样用FieldInfo接收,但是用的是 <strong>GetField()</strong> 方法（少了s），其中括号中放入字段的名称（字符串）。</li>
+<li>字段.SetValue()。SetValue(实例类名（可null）, 值)设置字段值</li>
+<li>获取值，并打印Console.WriteLine(field.GetValue(null));</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FieldInfo field = type_2.GetField(&quot;nation&quot;); // 获取指定字段，用FieldInfo类型的实例来接收</span><br><span class="line">field.SetValue(null, &quot;China&quot;); // SetValue(实例类名（可null）, 值)设置字段值</span><br><span class="line">Console.WriteLine(field.GetValue(null)); // GetValue(null)</span><br></pre></td></tr></table></figure>
+
+<p>+总图</p>
+<h3 id="通过反射获取属性-Property"><a href="#通过反射获取属性-Property" class="headerlink" title="通过反射获取属性(Property)"></a>通过反射获取属性(Property)</h3><ul>
+<li>先添加<strong>Staff类</strong>。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Staff</span><br><span class="line">&#123;</span><br><span class="line">    // 非公有字段</span><br><span class="line">    private int id = 1001;</span><br><span class="line">    private string name = &quot;pop&quot;;</span><br><span class="line">    private int age = 90;</span><br><span class="line">    private static string nation;</span><br><span class="line"></span><br><span class="line">    // 属性</span><br><span class="line">    public int Id &#123; get =&gt; id; set =&gt; id = value; &#125;</span><br><span class="line">    public string Name &#123; get =&gt; name; set =&gt; name = value; &#125;</span><br><span class="line">    public int Age &#123; get =&gt; age; set =&gt; age = value; &#125;</span><br><span class="line">    public static string Nation &#123; get =&gt; nation; set =&gt; nation = value; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>1.1获取Type类</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Type type = new Staff().GetType();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1.1获取全部属性， <strong>Property[]</strong> 属性数组， 获取全部属性 GetProperties()</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PropertyInfo[] propertyInfos = type.GetProperties();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>1.0以上两步可以一步完成,</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PropertyInfo[] properties = typeof(Staff).GetProperties();</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>可以实例化一个<strong>Staff类</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Staff staff_1 = new Staff()</span><br><span class="line">&#123;</span><br><span class="line">    Name = &quot;KK&quot;,</span><br><span class="line">    Age = 89,</span><br><span class="line">    Id = 1002</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>遍历</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 遍历</span><br><span class="line">foreach (PropertyInfo property in properties)</span><br><span class="line">&#123;</span><br><span class="line">    // 获取默认类</span><br><span class="line">    Console.WriteLine($&quot;属性类型：&#123;property.PropertyType&#125;\t 属性名字&#123;property.Name&#125;\t属性值&#123;property.GetValue(new Staff())&#125; &quot;);</span><br><span class="line">    // 获取已经实例化的类</span><br><span class="line">    Console.WriteLine($&quot;属性类型：&#123;property.PropertyType&#125;\t 属性名字&#123;property.Name&#125;\t属性值&#123;property.GetValue(staff_1)&#125; &quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://imgse.com/i/pkMojmT"><img src="https://s21.ax1x.com/2024/05/22/pkMojmT.png" alt="pkMojmT.png"></a></p>
+<hr>
+<ul>
+<li>获取指定类型, <strong>GetProperty(“Nation”)</strong> 获取名为”Nation”的属性。</li>
+<li>设置指定对象的基础值：<strong>SetValue( , ); （指定对象，值）</strong></li>
+<li>获取实例中的值：<strong>GetValue(实例);</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PropertyInfo propertyInfo = typeof(Staff).GetProperty(&quot;Nation&quot;);</span><br><span class="line">propertyInfo.SetValue(propertyInfo, &quot;American&quot;);</span><br><span class="line">Console.WriteLine($&quot;国籍&#123;propertyInfo.GetValue(new Staff())&#125;&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>+总图</p>
+<h3 id="通过反射获取构造函数-Constructor"><a href="#通过反射获取构造函数-Constructor" class="headerlink" title="通过反射获取构造函数(Constructor)"></a>通过反射获取构造函数(Constructor)</h3><ul>
+<li>在<strong>Staff类</strong>中插入构造函数,包括静态的，非静态的，私有的，公有的。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">private Staff() // 私有的，空的</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">public Staff(int id, string name, int age) // 公有的，有参数的</span><br><span class="line">&#123;</span><br><span class="line">    this.id = id;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.age = age;</span><br><span class="line">&#125;</span><br><span class="line">static Staff() // 静态的</span><br><span class="line">&#123;</span><br><span class="line">    nation = &quot;新加坡&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>首先获取类型(三种方式中选一中)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Type type = Type.GetType(&quot;CSharpReflection.Staff&quot;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>根据<strong>BindingFlags.</strong> 获取哪些类型的函数</li>
+<li>可以获取所有非静态函数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConstructorInfo[] constructors = type.GetConstructors();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>也可以获取所有静态非公有函数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConstructorInfo[] constructors_1 = type.GetConstructors(BindingFlags.Static | BindingFlags.NonPublic);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>还可以获取非静态的， 非公有的</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConstructorInfo[] constructors_2 = type.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>遍历</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foreach (ConstructorInfo constructor in constructors_1)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine($&quot;构造函数名称：&#123;constructor.Name&#125;\t 构造函数参数个数：&#123;constructor.GetParameters().Length&#125;\t 判断是否是静态：&#123;constructor.IsStatic&#125;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkMov0U"><img src="https://s21.ax1x.com/2024/05/22/pkMov0U.png" alt="pkMov0U.png"></a></li>
+</ul>
+<hr>
+<ul>
+<li>获取指定的构造函数,我是获取 <strong>public Staff(int id, string name, int age)</strong> 这个是共的，非静态的，而且是有参数的，所以获取构造函数 <strong>GetConstructor()</strong> 要添加Type类成员，<strong>否则无法获取。</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConstructorInfo cons = type.GetConstructor(new Type[] &#123; typeof(int), typeof(string), typeof(int) &#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>将构造函数实现，并传入值，实例一个<strong>Staff类</strong>接收。<strong>as</strong> 转换类型</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Staff staff_1 = cons.Invoke(new object[] &#123; 1001, &quot;lll&quot;, 20 &#125;) as Staff; // as 转换类型</span><br><span class="line">Console.WriteLine(staff_1.Name + &quot;\t&quot; + staff_1.Id + &quot;\t&quot; + staff_1.Age); // 打印</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用反射获得方法-Method"><a href="#使用反射获得方法-Method" class="headerlink" title="使用反射获得方法(Method)"></a>使用反射获得方法(Method)</h3><ul>
+<li>为 <strong>Staff类</strong> 重写，并添加方法。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 重写ToString()方法</span><br><span class="line">public override string ToString()</span><br><span class="line">&#123;</span><br><span class="line">    return $&quot;Staff:\tId = &#123;this.id&#125;\tName = &#123;this.name&#125;\tAge = &#123;this.age&#125;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">// 自我介绍方法</span><br><span class="line">public string Introduce()</span><br><span class="line">&#123;</span><br><span class="line">    return $&quot;我是&#123;this.name&#125;,编号&#123;this.id&#125;今年&#123;this.age&#125;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">// 静态方法</span><br><span class="line">public static void ShowN(string nation_)</span><br><span class="line">&#123;</span><br><span class="line">    Nation = nation_;</span><br><span class="line">    Console.WriteLine($&quot;来自&#123;Nation&#125;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>老方法，<strong>MethodInfo</strong> 方法类，用来存储方法</li>
+<li><strong>GetMethods()</strong> 获取方法。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 获取Type 类</span><br><span class="line">Type type = typeof(Staff);</span><br><span class="line">// 获取总方法</span><br><span class="line">MethodInfo[] methods = type.GetMethods();</span><br><span class="line">// 遍历所有方法,打印方法的基本信息</span><br><span class="line">foreach (var method in methods)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine($&quot;\t函数名称&#123;method.Name&#125;\t函数返回类型&#123;method.ReturnType&#125;\t 函数参数长度&#123;method.GetParameters().Length&#125;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<ul>
+<li>获取指定方法。</li>
+<li>type.GetMethod(“<strong>方法名</strong>“, <strong>new Type[]{}</strong>); 花括号:{有参数的话,输入参数类型,没有则不填}</li>
+<li>method_1.Invoke(输入实例)。<strong>null</strong> 我也不明白😑。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MethodInfo method_1 = type.GetMethod(&quot;Introduce&quot;, new Type[] &#123; &#125;); // (&quot;方法名&quot;, new Type[]&#123;输入参数类型,没有则不填&#125;)</span><br><span class="line">Console.WriteLine(method_1.Invoke(new Staff(1003, &quot;lll&quot;, 12), null));</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkMoL60"><img src="https://s21.ax1x.com/2024/05/22/pkMoL60.png" alt="pkMoL60.png"></a></li>
+</ul>
+<hr>
+<ul>
+<li>获取静态方法</li>
+<li>MethodInfo info &#x3D; type.GetMethod(“<strong>方法名</strong>“, new Type[] { <strong>typeof(参数类型)</strong> });如如果没有参数则<strong>new Type[]{}</strong> </li>
+<li>info.Invoke(null, new object[] { “马来西亚” })。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 获取静态函数</span><br><span class="line">MethodInfo info = type.GetMethod(&quot;ShowN&quot;, new Type[] &#123; typeof(string) &#125;);</span><br><span class="line">Console.WriteLine(info.Invoke(null, new object[] &#123; &quot;马来西亚&quot; &#125;));</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://imgse.com/i/pkMTptJ"><img src="https://s21.ax1x.com/2024/05/22/pkMTptJ.png" alt="pkMTptJ.png"></a></p>
+<h2 id="四、特性"><a href="#四、特性" class="headerlink" title="四、特性"></a>四、特性</h2><h3 id="特性介绍"><a href="#特性介绍" class="headerlink" title="特性介绍"></a>特性介绍</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/*特性</span><br><span class="line">* 基本定义:指一种语序程序员向程序添加元数据的语言结构，用于存储程序信息的类。</span><br><span class="line">* 语法结构：[特性名(参数列表)]</span><br><span class="line">* 常见特性：</span><br><span class="line">*      - Obsolete: 该特性用于标注类或成员已经被弃用，提示错误信息或警告信息</span><br><span class="line">*      - Serializable: 该特性用于标注类是可以序列化</span><br><span class="line">* </span><br><span class="line">*/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>写一个<strong>Test类</strong> 使用<strong>Obsolete</strong>特性</li>
+<li>(<strong>警告信息</strong> , <strong>false警告true报错</strong>), 警告：还可以运行；报错：不能运行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class Test</span><br><span class="line">&#123;</span><br><span class="line">    [Obsolete(&quot;OldMethod()方法已经过时，请使用NewMethod()方法&quot;, false)]</span><br><span class="line">    public void OldMethod()</span><br><span class="line">    &#123;</span><br><span class="line">        // (警告信息,false警告true报错), 警告：还可以运行；报错：不能运行</span><br><span class="line">        Console.WriteLine(&quot;Test.OldMethod&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void NewMethod()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;Test.NewMethod&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    new Test().OldMethod(); </span><br><span class="line">    new Test().NewMethod();</span><br><span class="line"></span><br><span class="line">    Console.ReadLine();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="自定义特性"><a href="#自定义特性" class="headerlink" title="自定义特性"></a>自定义特性</h3><ul>
+<li>命名时最好要<strong>加后缀Attribute</strong>。</li>
+<li>自定义特性需要继承 <strong>Attribute</strong> 类。</li>
+<li><strong>AttributeUsage</strong> 限定使用特性的类型范围(比如，用于类，字段，还是属性)。</li>
+<li>可有有多个特性：<strong>AllowMultiple &#x3D; true</strong></li>
+<li>以下代码是自定义一个特性: IntroduceAttribute</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// AttributeUsage 限定使用特性的类型范围, 可有有多个特性：AllowMultiple = true</span><br><span class="line">[AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = true)]</span><br><span class="line">class IntroduceAttribute : Attribute</span><br><span class="line">&#123;</span><br><span class="line">    // 描述类成员</span><br><span class="line">    // 字段</span><br><span class="line">    private string type;          // 类型</span><br><span class="line">    private string authod;      // 作者</span><br><span class="line">    private string dateTime;     // 日期</span><br><span class="line">    private string descrip;     // 描述</span><br><span class="line">    // 构造函数</span><br><span class="line">    public IntroduceAttribute()&#123;&#125;   </span><br><span class="line">    public IntroduceAttribute(string type, string authod, string dateTime, string descrip)</span><br><span class="line">    &#123;</span><br><span class="line">        this.type = type;</span><br><span class="line">        this.authod = authod;</span><br><span class="line">        this.dateTime = dateTime;</span><br><span class="line">        this.descrip = descrip;</span><br><span class="line">    &#125;</span><br><span class="line">    // 属性</span><br><span class="line">    public string Type &#123; get =&gt; type; set =&gt; type = value; &#125;</span><br><span class="line">    public string Authod &#123; get =&gt; authod; set =&gt; authod = value; &#125;</span><br><span class="line">    public string DateTime &#123; get =&gt; dateTime; set =&gt; dateTime = value; &#125;</span><br><span class="line">    public string Descrip &#123; get =&gt; descrip; set =&gt; descrip = value; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ul>
+<li>定义一个类, 用来测试自定义特性</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 定义一个测试类， 用来测试自定义特性</span><br><span class="line"></span><br><span class="line">[Introduce(&quot;测试V1&quot;,&quot;Brayden&quot;,&quot;2036-05-23&quot;,&quot;测试自定义特性&quot;)]</span><br><span class="line">[Introduce(&quot;测试V2&quot;,&quot;Brayden&quot;,&quot;2037-09-06&quot;,&quot;测试自定义特性&quot;)]</span><br><span class="line">class Test // 类</span><br><span class="line">&#123;</span><br><span class="line">    private string name;</span><br><span class="line"></span><br><span class="line">    public string Name &#123; get =&gt; name; set =&gt; name = value; &#125;</span><br><span class="line">    [Introduce(&quot;打印&quot;, &quot;Test&quot;, &quot;2036-06-19&quot;, &quot;打印自身&quot;)]</span><br><span class="line">    public void Printf() // 方法</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;Printf()&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>主函数代码</li>
+<li>通过<strong>反射</strong>获取类或类的成员的特性,Type type &#x3D; typeof(Test);</li>
+<li>判断类上是否有指定的特性：if (<strong>type.IsDefined</strong>(typeof(<strong>特性名</strong>), 是否检查该成员的上级))</li>
+<li><strong>type.GetCustomAttributes()</strong> 获取特性，并返回多个类，用基类数组接收</li>
+<li>以下代码是<strong>通过反射获取类或类的成员的特性</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 通过反射获取类或类的成员的特性</span><br><span class="line">Type type = typeof(Test);</span><br><span class="line">// 判断类上是否有指定的特性</span><br><span class="line">if (type.IsDefined(typeof(IntroduceAttribute), false))</span><br><span class="line">&#123;</span><br><span class="line">    // type.GetCustomAttributes()获取特性，并返回多个类，用基类数组接收</span><br><span class="line">    Object[] ob = type.GetCustomAttributes(typeof(IntroduceAttribute), false);</span><br><span class="line">    foreach (IntroduceAttribute introduce in ob)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(introduce);</span><br><span class="line">        Console.WriteLine(introduce.Type + &quot;\t&quot; + introduce.Authod + &quot;\t&quot; + introduce.DateTime + &quot;\t&quot; + introduce.Descrip);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkMT9h9"><img src="https://s21.ax1x.com/2024/05/22/pkMT9h9.png" alt="pkMT9h9.png"></a></li>
+</ul>
+<hr>
+<ul>
+<li>以下代码是<strong>获取方法(Method)上的特性</strong></li>
+<li>基本步骤与上面一致。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 获取方法(Method)上的特性</span><br><span class="line">// 用方法接收</span><br><span class="line"> MethodInfo methodInfo = type.GetMethod(&quot;Printf&quot;, new Type[] &#123;&#125;);</span><br><span class="line">if (methodInfo.IsDefined(typeof(IntroduceAttribute), false))</span><br><span class="line">&#123;</span><br><span class="line">    object[] method =  methodInfo.GetCustomAttributes(typeof(IntroduceAttribute),false);</span><br><span class="line">    foreach (IntroduceAttribute introduce in method)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(introduce);</span><br><span class="line">        Console.WriteLine(introduce.Type + &quot;\t&quot; + introduce.Authod + &quot;\t&quot; + introduce.DateTime + &quot;\t&quot; + introduce.Descrip);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<p>完成！！！<br>写的太多了，有点累了🤧。<br>掌握的还是不够深入啊🫣。</p>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://localhost:4000">Brayden Bin</a>
+            <p>原文链接：<a href="http://localhost:4000/2024/05/22/C_sharp_Reflection_Attribute_7/">http://localhost:4000/2024/05/22/C_sharp_Reflection_Attribute_7/</a>
+            <p>发表日期：<a href="http://localhost:4000/2024/05/22/C_sharp_Reflection_Attribute_7/">May 22nd 2024, 4:39:45 pm</a>
+            <p>更新日期：<a href="http://localhost:4000/2024/05/22/C_sharp_Reflection_Attribute_7/">May 22nd 2024, 8:58:41 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2024/05/25/CsharpIO_8/" title="C#IO-File">
+                    <div class="nextTitle">C#IO-File</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2024/05/19/The_First_Replay_6/" title="第一周复盘">
+                    <div class="prevTitle">第一周复盘</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:15577099697@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/EagleBin" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/assets/MyWechat.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C-%E5%8F%8D%E5%B0%84%E4%B8%8E%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">C# 反射与特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">一、概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Type%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">二、Type类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81C-%E5%8F%8D%E5%B0%84"><span class="toc-number">1.3.</span> <span class="toc-text">三、C#反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E5%AD%97%E6%AE%B5-Field"><span class="toc-number">1.3.1.</span> <span class="toc-text">通过反射获取字段(Field)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E5%B1%9E%E6%80%A7-Property"><span class="toc-number">1.3.2.</span> <span class="toc-text">通过反射获取属性(Property)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0-Constructor"><span class="toc-number">1.3.3.</span> <span class="toc-text">通过反射获取构造函数(Constructor)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%BE%97%E6%96%B9%E6%B3%95-Method"><span class="toc-number">1.3.4.</span> <span class="toc-text">使用反射获得方法(Method)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%89%B9%E6%80%A7"><span class="toc-number">1.4.</span> <span class="toc-text">四、特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.4.1.</span> <span class="toc-text">特性介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%89%B9%E6%80%A7"><span class="toc-number">1.4.2.</span> <span class="toc-text">自定义特性</span></a></li></ol></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 9
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/05/17/CsharpApplicationConnetSQL_5/">C# 应用程序连接SQLServer数据库</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/05/22/C_sharp_Reflection_Attribute_7/">C# 反射与特性</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/05/25/CsharpIO_8/">C#IO-File</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/19</span>
+            <a class="archive-post-title" href="/2024/05/19/The_First_Replay_6/">第一周复盘</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/06</span>
+            <a class="archive-post-title" href="/2024/05/06/WPF%E5%AE%9E%E6%97%B6%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA%E6%97%B6%E9%97%B4_3/">WPF实时动态显示时间</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/05</span>
+            <a class="archive-post-title" href="/2024/05/05/WPF%E6%B8%90%E5%8F%98%E8%89%B2%E8%83%8C%E6%99%AF%E5%8F%8A%E8%BE%B9%E6%A1%86%E8%AE%BE%E7%BD%AE_2/">WPF渐变色背景及边框设置</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/03</span>
+            <a class="archive-post-title" href="/2024/05/03/Markdown_Study_1/">Markdown Study</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span>
+            <a class="archive-post-title" href="/2024/05/01/hello-world/">Hello World</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/05/14/WPF%20connet%20SQL/">WPF连接SQL Server</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "http://localhost:4000",
+        root: siteMetaRoot,
+        author: "Brayden Bin"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>
