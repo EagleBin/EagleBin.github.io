@@ -6,7 +6,7 @@
   <link href="http://localhost:4000/atom.xml" rel="self"/>
   
   <link href="http://localhost:4000/"/>
-  <updated>2024-05-25T13:38:57.970Z</updated>
+  <updated>2024-05-26T10:12:25.864Z</updated>
   <id>http://localhost:4000/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第二周复盘</title>
+    <link href="http://localhost:4000/2024/05/26/The_Swcond_Replay_9/"/>
+    <id>http://localhost:4000/2024/05/26/The_Swcond_Replay_9/</id>
+    <published>2024-05-26T09:33:22.895Z</published>
+    <updated>2024-05-26T10:12:25.864Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="第二周复盘"><a href="#第二周复盘" class="headerlink" title="第二周复盘"></a><center>第二周复盘</center></h1><h2 id="本周总结"><a href="#本周总结" class="headerlink" title="本周总结"></a>本周总结</h2><p><strong>复盘：</strong></p><p><a href="https://imgse.com/i/pklW5k9"><img src="https://s21.ax1x.com/2024/05/26/pklW5k9.png" alt="pklW5k9.png"></a></p><p><strong>患处</strong></p><ul><li>这周懒惰了很多</li><li>有点没有动力了</li><li>甚至开始讨厌睡眠，一睡觉就头痛，失眠严重</li><li>很多事情都没有做啊</li><li>连上周的计划都没有实行</li><li>看书也少了</li><li>开始玩点游戏了，手机上看小说用的时间久了</li><li>手机使用时间一下子就上来不少了</li><li>时间记录也少了，大多还是仅仅记录了半天</li><li>运动少了</li><li>英语的一些任务没有完成</li><li>还在迷惑时间怎么丢失的</li><li>写博客时间拖延了</li><li>C#没有进入预定的学习阶段</li><li>心魔依旧困扰</li></ul><p><strong>优处</strong></p><ul><li>能够有自我意识的去运动，会内疚没有运动，没有背单词的那一天</li><li>写博客效率提高了，更加清醒了</li><li>C#开始进入自我短缺的模块学习</li><li>更加对自己有信心了，走起路来更有行，体重稳定增长，开始在意身材的锻炼</li><li>跳绳使我增强，俯卧撑使我强大</li><li>在意头发的打理，使用发箍使头发更加蓬松</li><li>露额头更加帅气，穿上衬衫短袖更加有气质</li><li>网球方面有了新的路数，更有自信</li><li>保持好桌面的整洁</li><li>能够忽视他人的干扰</li><li>坚持加餐行动</li><li>进行了一次冥想午睡，心如静潭</li><li>思想在重重压力下更进一层，冥想后情绪开始逐渐稳定</li></ul><hr><p><strong>手机每日使用情况：</strong><br><a href="https://imgse.com/i/pklWof1"><img src="https://s21.ax1x.com/2024/05/26/pklWof1.jpg" alt="pklWof1.jpg"></a></p><h2 id="下周计划"><a href="#下周计划" class="headerlink" title="下周计划"></a>下周计划</h2><ul><li>把C#-IO彻底学完,进入C#Linq学习,依旧预定C#多线程</li><li>开启《人生启示录》博文的编写</li><li>认真复习形势与政策，稳定完成考试</li><li>开始下一步的心得学习</li><li>坚持英语复习与练习</li><li>坚持运动</li><li>多多冥想，缓解紧张</li><li>学会忘记，克制心魔</li><li>开心的，有力的打好网球</li><li>自主学习计算机组成原理</li></ul><hr><hr><p>弱者总会被迫的去做事，被迫的接受；强者永远给自己找任务提升自己。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;第二周复盘&quot;&gt;&lt;a href=&quot;#第二周复盘&quot; class=&quot;headerlink&quot; title=&quot;第二周复盘&quot;&gt;&lt;/a&gt;&lt;center&gt;第二周复盘&lt;/center&gt;&lt;/h1&gt;&lt;h2 id=&quot;本周总结&quot;&gt;&lt;a href=&quot;#本周总结&quot; class=&quot;headerl</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>CSharp IO-File</title>
