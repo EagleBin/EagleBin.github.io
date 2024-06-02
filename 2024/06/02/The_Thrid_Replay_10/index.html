@@ -19,25 +19,24 @@
         <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="">
-    <meta name="description" content="C#IO-File一、概述 IO-路径(Path) IO-文件(File) IO-文件(FileInfo非静态类) IO-文件夹(Directory) IO-文件夹(DirectoryInfo非静态类) 文件数据写入 思维导图  +图片 二、IO-路径(Path) 定义：Path是一种获取文件名以及路径的静态方法。 定义一个字符串：path &#x3D; &quot;D:\\Visual Studio\\C">
+    <meta name="description" content="第三周复盘本周总结复盘 患处 懒!懒!懒! 几乎全都是No,不说OK了,连Yes都没几个. 感觉生活少了很多事情,动力少了不少,紧迫感少了 这一周都没有编程(应该是,因为我没有记录时间,一周的记忆都没了) 没有把Csharp_IO给完结, 博文在这一周都停更了,因为没有编程,其次要复习近代史考试. 书也没有看,也就今天周日把”大脑多向思考者”看完(只剩一点了). 没有进行冥想,还是习惯性失眠,总喜">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSharp IO-File">
-<meta property="og:url" content="http://localhost:4000/2024/05/25/CsharpIO_8/index.html">
+<meta property="og:title" content="第三周复盘">
+<meta property="og:url" content="http://localhost:4000/2024/06/02/The_Thrid_Replay_10/index.html">
 <meta property="og:site_name" content="Brayden Bin&#39;s Blog">
-<meta property="og:description" content="C#IO-File一、概述 IO-路径(Path) IO-文件(File) IO-文件(FileInfo非静态类) IO-文件夹(Directory) IO-文件夹(DirectoryInfo非静态类) 文件数据写入 思维导图  +图片 二、IO-路径(Path) 定义：Path是一种获取文件名以及路径的静态方法。 定义一个字符串：path &#x3D; &quot;D:\\Visual Studio\\C">
+<meta property="og:description" content="第三周复盘本周总结复盘 患处 懒!懒!懒! 几乎全都是No,不说OK了,连Yes都没几个. 感觉生活少了很多事情,动力少了不少,紧迫感少了 这一周都没有编程(应该是,因为我没有记录时间,一周的记忆都没了) 没有把Csharp_IO给完结, 博文在这一周都停更了,因为没有编程,其次要复习近代史考试. 书也没有看,也就今天周日把”大脑多向思考者”看完(只剩一点了). 没有进行冥想,还是习惯性失眠,总喜">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s21.ax1x.com/2024/05/25/pklKtKJ.png">
-<meta property="og:image" content="https://s21.ax1x.com/2024/05/25/pklKUbR.md.png">
-<meta property="article:published_time" content="2024-05-25T12:32:59.605Z">
-<meta property="article:modified_time" content="2024-05-25T13:38:57.970Z">
+<meta property="og:image" content="https://s21.ax1x.com/2024/06/02/pkGr5NR.png">
+<meta property="article:published_time" content="2024-06-02T12:26:38.803Z">
+<meta property="article:modified_time" content="2024-06-02T13:09:59.108Z">
 <meta property="article:author" content="Brayden Bin">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s21.ax1x.com/2024/05/25/pklKtKJ.png">
+<meta name="twitter:image" content="https://s21.ax1x.com/2024/06/02/pkGr5NR.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="icon" href="/assets/Light_moon.ico">
     
-    <title>CSharp IO-File · Brayden Bin&#39;s Studio</title>
+    <title>第三周复盘 · Brayden Bin&#39;s Studio</title>
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
@@ -264,7 +263,7 @@
                 <a href="/">Brayden Bin&#39;s Studio.</a>
             </div>
             <div class="post-title header-element">
-                <a href="#" class="post-name">CSharp IO-File</a>
+                <a href="#" class="post-name">第三周复盘</a>
             </div>
         </div>
     
@@ -310,7 +309,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-                CSharp IO-File
+                第三周复盘
             <!-- 404 -->
             
         </h1>
@@ -336,13 +335,13 @@
                 <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">439</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <!-- 撰写日期 -->
                     <span class="iconfont-archer post-intro-calander">&#xe676;</span>
-                    <span class="post-intro-time">2024/05/25</span>
+                    <span class="post-intro-time">2024/06/02</span>
                     <!-- busuanzi -->
                     
                         <span id="busuanzi_container_page_pv" class="busuanzi-pv">
@@ -497,106 +496,58 @@
             <div class="container container-unloaded">
                 <main class="main post-page">
     <article class="article-entry">
-        <h1 id="C-IO-File"><a href="#C-IO-File" class="headerlink" title="C#IO-File"></a><center>C#IO-File</center></h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><ul>
-<li>IO-路径(Path)</li>
-<li>IO-文件(File)</li>
-<li>IO-文件(FileInfo非静态类)</li>
-<li>IO-文件夹(Directory)</li>
-<li>IO-文件夹(DirectoryInfo非静态类)</li>
-<li>文件数据写入</li>
-<li>思维导图<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pklKtKJ"><img src="https://s21.ax1x.com/2024/05/25/pklKtKJ.png" alt="pklKtKJ.png"></a></li>
+        <h1 id="第三周复盘"><a href="#第三周复盘" class="headerlink" title="第三周复盘"></a><center>第三周复盘</center></h1><h2 id="本周总结"><a href="#本周总结" class="headerlink" title="本周总结"></a>本周总结</h2><h3 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a><strong>复盘</strong></h3><p><a target="_blank" rel="noopener" href="https://imgse.com/i/pkGr5NR"><img src="https://s21.ax1x.com/2024/06/02/pkGr5NR.png" alt="pkGr5NR.png"></a></p>
+<h3 id="患处"><a href="#患处" class="headerlink" title="患处"></a><strong>患处</strong></h3><ul>
+<li>懒!懒!懒!</li>
+<li>几乎全都是No,不说OK了,连Yes都没几个.</li>
+<li>感觉生活少了很多事情,动力少了不少,紧迫感少了</li>
+<li>这一周都没有编程(应该是,因为我没有记录时间,一周的记忆都没了)</li>
+<li>没有把Csharp_IO给完结,</li>
+<li>博文在这一周都停更了,因为没有编程,其次要复习近代史考试.</li>
+<li>书也没有看,也就今天周日把”大脑多向思考者”看完(只剩一点了).</li>
+<li>没有进行冥想,还是习惯性失眠,总喜欢睡前思考问题</li>
+<li>前半周都没有锻炼身体,感觉瘦了</li>
+<li>英语复习有点迷茫,各项都没有突破</li>
+<li>心情还是有点愤愤,又有点落空感</li>
+<li>没有将上周的任务结束,甚至忘记</li>
+<li>没有开始写人生博文</li>
+<li>离四级越来越近了,开始慌了.</li>
+<li>小人之心难之.</li>
+<li>又开始不知所措了,得给自己找事情做</li>
+<li>手机使用情况多了</li>
+<li>沉迷于游戏</li>
 </ul>
-<p>+图片</p>
-<h2 id="二、IO-路径-Path"><a href="#二、IO-路径-Path" class="headerlink" title="二、IO-路径(Path)"></a>二、IO-路径(Path)</h2><ul>
-<li>定义：Path是一种获取文件名以及路径的<strong>静态方法</strong>。</li>
-<li>定义一个字符串：<code>path = &quot;D:\\Visual Studio\\C#_Advanced\\C#文件IO\\Program.cs&quot;;</code></li>
-<li>获取文件名：<code>Path.GetFileName(path)</code></li>
-<li>获取文件名不包括扩展名：<code>Path.GetFileNameWithoutExtension(path)</code></li>
-<li>获取目录：<code>Path.GetDirectoryName(path)</code></li>
+<h3 id="优处"><a href="#优处" class="headerlink" title="优处"></a><strong>优处</strong></h3><ul>
+<li>自我认同感增强</li>
+<li>开始接触一点CSharp_Linq知识</li>
+<li>努力克制中</li>
+<li>看问题,思考与做事都开始趋向慢节奏</li>
+<li>后半周有坚持锻炼</li>
+<li>头发梳理越来越好</li>
+<li>开始了”计算机组成原理”的学习</li>
+<li>努力的慢慢的做好</li>
 </ul>
-<p><strong>代码部分如下：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">string path = &quot;D:\\Visual Studio\\C#_Advanced\\C#文件IO\\Program.cs&quot;;</span><br><span class="line">// 获取路径的文件名</span><br><span class="line">Console.WriteLine(Path.GetFileName(path));</span><br><span class="line">// 获取路径的文件名（不包括扩展名）</span><br><span class="line">Console.WriteLine(Path.GetFileNameWithoutExtension(path));</span><br><span class="line">// 获取扩展名</span><br><span class="line">Console.WriteLine(Path.GetExtension(path));</span><br><span class="line">// 获取路径分隔符</span><br><span class="line">Console.WriteLine(Path.DirectorySeparatorChar);</span><br><span class="line">// 获取目录名</span><br><span class="line">Console.WriteLine(Path.GetDirectoryName(path));</span><br><span class="line">// ./ 获取当前目录， ../ 获取上一级的目录 </span><br><span class="line">Console.WriteLine(Path.GetFullPath(&quot;./&quot;));</span><br><span class="line">Console.WriteLine(Path.GetFullPath(&quot;../&quot;));</span><br></pre></td></tr></table></figure>
-
-<h2 id="三、IO-文件-File"><a href="#三、IO-文件-File" class="headerlink" title="三、IO-文件(File)"></a>三、IO-文件(File)</h2><ul>
-<li><ul>
-<li>定义：FileI是用于操作系统文件的类，<strong>静态类</strong>。</li>
+<h2 id="下周计划"><a href="#下周计划" class="headerlink" title="下周计划"></a>下周计划</h2><ul>
+<li>坚持英语复习,坚持!坚持!坚持!用心!</li>
+<li>坚持计组的学习,要复习之前学的</li>
+<li>养神,冥想,睡好觉.</li>
+<li>看看书吧,孩子.</li>
+<li>继续听讲座.</li>
+<li>复习计算机网络知识</li>
+<li>克制游戏,让心静下来.</li>
 </ul>
-</li>
-<li>判断文件是否存在：<code>File.Exists(路径)</code></li>
-<li>创建文件：<code>File.Create(路径)</code></li>
-<li>删除文件：<code>File.Delete(路径)</code></li>
-<li>复制文件：<code>File.Copy(源文件路径, 目标文件路径)</code></li>
-<li>剪切文件：<code>File.Move(源文件路径, 目标文件路径)</code></li>
-</ul>
-<p><strong>代码部分如下：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">if (File.Exists(&quot;./Test_2.txt&quot;))</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;yes&quot;);</span><br><span class="line">    File.Delete(&quot;./Test_2.txt&quot;);</span><br><span class="line">    Console.WriteLine(&quot;文件删除&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;no&quot;);</span><br><span class="line">    File.Create(&quot;./Test_2.txt&quot;).Dispose(); // .Dispose()释放资源</span><br><span class="line">    Console.WriteLine(&quot;文件创建&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 文件复制</span><br><span class="line">File.Copy(&quot;./Test_2.txt&quot;, &quot;C:\\Users\\bindo\\Desktop\\Test_4.txt&quot;);</span><br><span class="line"></span><br><span class="line">// 文件剪切</span><br><span class="line">File.Move(&quot;./Test_2.txt&quot;, &quot;C:\\Users\\bindo\\Desktop\\Test_4.txt&quot;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="三、IO-文件-FileInfo非静态类"><a href="#三、IO-文件-FileInfo非静态类" class="headerlink" title="三、IO-文件(FileInfo非静态类)"></a>三、IO-文件(FileInfo非静态类)</h2><ul>
-<li>定义：FileInfo 是用于操作系统文件的类，非静态类，需要创建实例。 功能类似于File</li>
-<li>创建实例：<code>FileInfo fileinfo = new FileInfo(路径)</code></li>
-<li>创建文件：<code>fileInfo.Create()</code></li>
-<li>删除文件：<code>fileInfo.Delete()</code></li>
-<li>拷贝文件：<code>fileInfo.CopyTo(目标文件路径)</code></li>
-<li>什么时候使用File，使用FileInfo</li>
-</ul>
-<ol>
-<li>对单个文件进行多次操作，使用FileInfo。</li>
-<li>对多个文件进行单一操作，使用File。</li>
-</ol>
-<p><strong>代码部分如下：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">FileInfo testInfo = new FileInfo(&quot;./Text_5&quot;);</span><br><span class="line"></span><br><span class="line">if (testInfo.Exists)</span><br><span class="line">&#123;</span><br><span class="line">    testInfo.Delete();</span><br><span class="line">    Console.WriteLine(&quot;文件删除&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    testInfo.Create().Dispose();</span><br><span class="line">    Console.WriteLine(&quot;文件创建&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 文件拷贝</span><br><span class="line">testInfo.CopyTo(&quot;C:\\Users\\bindo\\Desktop\\test_6.txt&quot;);</span><br><span class="line">// 文件拷贝</span><br><span class="line">testInfo.MoveTo(&quot;C:\\Users\\bindo\\Desktop\\test_6.txt&quot;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="四、IO-文件夹-Directory"><a href="#四、IO-文件夹-Directory" class="headerlink" title="四、IO-文件夹(Directory)"></a>四、IO-文件夹(Directory)</h2><ul>
-<li>定义：管理文件夹或目录的<strong>静态类</strong>。</li>
-<li>创建文件夹：<code>Directory.CreateDirectory(文件夹路径)</code></li>
-<li>删除文件夹：<code>Directory.Delete(文件夹路径);</code></li>
-<li>剪切文件夹：<code>Directory.Move(源文件夹路径, 目标文件夹路径)</code></li>
-<li>获取文件夹下的文件夹：<code>Directory.GetDirectories(文件夹路径)</code></li>
-</ul>
-<p><strong>代码部分如下：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">if (Directory.Exists(&quot;./Test&quot;))</span><br><span class="line">&#123;</span><br><span class="line">    Directory.Delete(&quot;./Test&quot;);</span><br><span class="line">    Console.WriteLine(&quot;删除文件夹&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    Directory.CreateDirectory(&quot;./Test&quot;);</span><br><span class="line">    Console.WriteLine(&quot;创建文件夹&quot;);</span><br><span class="line">&#125;</span><br><span class="line">// 剪切文件夹</span><br><span class="line">Directory.Move(&quot;./Test&quot;, &quot;../Test&quot;);</span><br><span class="line"></span><br><span class="line">//获取指定文价夹下的文件夹</span><br><span class="line">string[] dires = Directory.GetDirectories(&quot;../../&quot;);</span><br><span class="line">foreach (string diresPath in dires)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(diresPath);</span><br><span class="line">&#125;</span><br><span class="line">Console.WriteLine(&quot;________________&quot;);</span><br><span class="line"></span><br><span class="line">// 获取文件夹下的所有文件</span><br><span class="line">string[] files = Directory.GetFiles(&quot;../../&quot;);</span><br><span class="line">foreach (string file in files)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(file);</span><br><span class="line">&#125;</span><br><span class="line">Console.WriteLine(&quot;________________&quot;);</span><br><span class="line"></span><br><span class="line">// 获取文件夹下的所有文件和文件夹</span><br><span class="line">string[] enters = Directory.GetFileSystemEntries(&quot;../../&quot;);</span><br><span class="line">foreach (string enterPath in enters)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(enterPath);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>效果截图：<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pklKUbR"><img src="https://s21.ax1x.com/2024/05/25/pklKUbR.md.png" alt="pklKUbR.md.png"></a></p>
-<h2 id="五、IO-文件夹-DirectoryInfo"><a href="#五、IO-文件夹-DirectoryInfo" class="headerlink" title="五、IO-文件夹(DirectoryInfo)"></a>五、IO-文件夹(DirectoryInfo)</h2><ul>
-<li>对文件夹进行操作，非静态类，需要创建实例</li>
-<li>用法类比File与FileInfo，不多赘述了。</li>
-</ul>
-<h2 id="六、IO-文件数据写入"><a href="#六、IO-文件数据写入" class="headerlink" title="六、IO-文件数据写入"></a>六、IO-文件数据写入</h2><p><strong>写入的方法：</strong></p>
-<ul>
-<li>WriteAllText：一次将所有内容写入。</li>
-<li>WriteAllLines：<strong>按行写入</strong>，一个字符串一行。</li>
-<li>WriteAllBytes：按<strong>ASCII码</strong>写入</li>
-</ul>
-<p><strong>读取方法：</strong></p>
-<ul>
-<li>ReadAllText：一次读取所有内容。</li>
-<li>ReadAllLines：按行读取内容。</li>
-<li>ReadAllBytes：<strong>ASCII码</strong>读取。</li>
-</ul>
-<p>另外</p>
-<ul>
-<li><p>WriteAllBytes使用时注意编码，Encoding.UTF8.GetBytes(内容)</p>
-</li>
-<li><p>解码：Encoding.UTF8.GetString(bytes)</p>
-</li>
-<li><p>WriteAllBytes主要用于操作简单的，比较小的<strong>二进制文件</strong>（如图片，视频，音频）</p>
-</li>
-<li><p>WriteAllText,WriteAllLines主要用于操作简单的，比较小的<strong>文本文件</strong>（只包含文本内容的文件，如.txt .cs）</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// 按行写入数据</span><br><span class="line">File.WriteAllLines(&quot;./Test.txt&quot;, new string[] &#123; &quot;第一行&quot;, &quot;第二行&quot;, &quot;第三行&quot; &#125;);</span><br><span class="line">Console.WriteLine(&quot;写入成功&quot;);</span><br><span class="line">// 遍历打印</span><br><span class="line">string[] content = File.ReadAllLines(&quot;./Test.txt&quot;);</span><br><span class="line">foreach (string line in content)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(line);</span><br><span class="line">&#125;</span><br><span class="line">Console.WriteLine(&quot;数据读取完毕&quot;);</span><br><span class="line"></span><br><span class="line">// 按内容写入数据</span><br><span class="line">File.WriteAllText(&quot;./Test.txt&quot;, &quot;今天是星期五 \n 天气多云&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 按字节写入数据</span><br><span class="line">// 编码</span><br><span class="line">File.WriteAllBytes(&quot;./Test.txt&quot;, Encoding.UTF8.GetBytes(&quot;第一行\n第二行\n第三行&quot;));</span><br><span class="line">byte[] bytes = File.ReadAllBytes(&quot;./Test.txt&quot;);</span><br><span class="line">// 遍历打印,没有解码，打印出来数字</span><br><span class="line">foreach (byte b in bytes)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(b);</span><br><span class="line">&#125;</span><br><span class="line">//解码</span><br><span class="line">string content_1 = Encoding.UTF8.GetString(bytes);</span><br><span class="line">Console.WriteLine(content_1);</span><br></pre></td></tr></table></figure>
 <hr>
 <hr>
-<p>糊糊涂涂就写了。<br>最近又懒惰了。<br>可别停下脚步啊。<br>加油。</p>
+<p>情爱之心人皆有之,学会理解,学会控制,认清本质.</p>
 
     </article>
     <!-- license -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="http://localhost:4000">Brayden Bin</a>
-            <p>原文链接：<a href="http://localhost:4000/2024/05/25/CsharpIO_8/">http://localhost:4000/2024/05/25/CsharpIO_8/</a>
-            <p>发表日期：<a href="http://localhost:4000/2024/05/25/CsharpIO_8/">May 25th 2024, 8:32:59 pm</a>
-            <p>更新日期：<a href="http://localhost:4000/2024/05/25/CsharpIO_8/">May 25th 2024, 9:38:57 pm</a>
+            <p>原文链接：<a href="http://localhost:4000/2024/06/02/The_Thrid_Replay_10/">http://localhost:4000/2024/06/02/The_Thrid_Replay_10/</a>
+            <p>发表日期：<a href="http://localhost:4000/2024/06/02/The_Thrid_Replay_10/">六月 2日 2024, 8:26:38 晚上</a>
+            <p>更新日期：<a href="http://localhost:4000/2024/06/02/The_Thrid_Replay_10/">六月 2日 2024, 9:09:59 晚上</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -604,17 +555,12 @@
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href="/2024/05/26/The_Swcond_Replay_9/" title="第二周复盘">
-                    <div class="nextTitle">第二周复盘</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/2024/05/22/C_sharp_Reflection_Attribute_7/" title="C# 反射与特性">
-                    <div class="prevTitle">C# 反射与特性</div>
+                <a href="/2024/05/26/The_Swcond_Replay_9/" title="第二周复盘">
+                    <div class="prevTitle">第二周复盘</div>
                 </a>
             
         </li>
@@ -754,7 +700,7 @@
                 <div class="toc-catalog">
                     <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
                 </div>
-                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C-IO-File"><span class="toc-number">1.</span> <span class="toc-text">C#IO-File</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">一、概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81IO-%E8%B7%AF%E5%BE%84-Path"><span class="toc-number">1.2.</span> <span class="toc-text">二、IO-路径(Path)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81IO-%E6%96%87%E4%BB%B6-File"><span class="toc-number">1.3.</span> <span class="toc-text">三、IO-文件(File)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81IO-%E6%96%87%E4%BB%B6-FileInfo%E9%9D%9E%E9%9D%99%E6%80%81%E7%B1%BB"><span class="toc-number">1.4.</span> <span class="toc-text">三、IO-文件(FileInfo非静态类)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81IO-%E6%96%87%E4%BB%B6%E5%A4%B9-Directory"><span class="toc-number">1.5.</span> <span class="toc-text">四、IO-文件夹(Directory)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81IO-%E6%96%87%E4%BB%B6%E5%A4%B9-DirectoryInfo"><span class="toc-number">1.6.</span> <span class="toc-text">五、IO-文件夹(DirectoryInfo)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81IO-%E6%96%87%E4%BB%B6%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5"><span class="toc-number">1.7.</span> <span class="toc-text">六、IO-文件数据写入</span></a></li></ol></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E5%91%A8%E5%A4%8D%E7%9B%98"><span class="toc-number">1.</span> <span class="toc-text">第三周复盘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%91%A8%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.</span> <span class="toc-text">本周总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%9B%98"><span class="toc-number">1.1.1.</span> <span class="toc-text">复盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%82%A3%E5%A4%84"><span class="toc-number">1.1.2.</span> <span class="toc-text">患处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%A4%84"><span class="toc-number">1.1.3.</span> <span class="toc-text">优处</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E5%91%A8%E8%AE%A1%E5%88%92"><span class="toc-number">1.2.</span> <span class="toc-text">下周计划</span></a></li></ol></li></ol>
             </div>
         
         <!-- sidebar -->
